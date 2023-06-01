@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Preview</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+
+</head>
+<body>
+    <h1>Resume Preview</h1>
+    <h2>Personal Information</h2>
+    <p><strong>Full Name:</strong> {{ personal_info.first_name }} {{ personal_info.last_name }}</p>
+    <p><strong>Email:</strong> {{ personal_info.email }}</p>
+    <p><strong>Phone Number:</strong> {{ personal_info.phone_number }}</p>
+
+    <h2>Job Experience</h2>
+<ul>
+    {% for experience in job_experience %}
+        <li>{{ experience }}</li>
+    {% empty %}
+        <li>No job experience available</li>
+    {% endfor %}
+</ul>
+
+    <h2>Skills</h2>
+    <ul>
+        {% for skill in skills %}
+            <li>{{ skill }}</li>
+        {% empty %}
+            <li>No skills available</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Education</h2>
+    <ul>
+        {% for education_detail in education %}
+            <li>{{ education_detail }}</li>
+        {% empty %}
+            <li>No education details available</li>
+        {% endfor %}
+    </ul>
+        <!-- Add a download button -->
+        <button onclick="downloadResume()">Download Resume</button>
+
+        <script>
+          function downloadResume() {
+            // Get the HTML content of the preview_resume.html page
+            var resumeContent = document.documentElement.outerHTML;
+            
+            // Create a Blob object with the HTML content
+            var blob = new Blob([resumeContent], { type: 'text/html' });
+            
+            // Create a temporary anchor element
+            var anchor = document.createElement('a');
+            anchor.href = URL.createObjectURL(blob);
+            
+            // Set the filename for the download
+            anchor.download = 'resume.html';
+            
+            // Programmatically click the anchor to trigger the download
+            anchor.click();
+          }
+        </script>
+</body>
+</html>
